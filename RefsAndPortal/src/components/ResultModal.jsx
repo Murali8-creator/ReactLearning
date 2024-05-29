@@ -1,8 +1,8 @@
 import { forwardRef } from "react";
 
- const ResultModal =  forwardRef(function ResultModal({result, targetTime}, ref){
+export default function ResultModal({result, targetTime}){
     return (
-        <dialog ref={ref} className="result-modal" open>
+        <dialog className="result-modal" open>
             <h2>You {result}</h2>
             <p>The target time was <strong>{targetTime}</strong></p>
             <p>You Stopped the timer with <strong>X seconds left</strong></p>
@@ -11,6 +11,6 @@ import { forwardRef } from "react";
             </form>
         </dialog>
     );
-});
+}
 
-export default ResultModal;
+// export default ResultModal;
