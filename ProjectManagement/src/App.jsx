@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { SelectedProject } from './components/SelectedProject';
 import { Tasks } from './components/Tasks';
 import { TaskContext } from './store/task-context';
+import { ProjectContext } from './store/project-context';
 
 function App() {
   const [projectsState, setProjectsState] = useState({
@@ -100,16 +101,13 @@ function App() {
 
   if (projectsState.selectedProjectId === null) {
     content = (
-      <NewProject onAdd={handleAddProject} onCancel={handleCancelAddProject} />
+      <NewProject />
     );
   } else if (projectsState.selectedProjectId === undefined) {
-    content = <NoProjectSelected onStartAddProject={handleCreateProject} />;
+    content = <NoProjectSelected/>;
   } else {
     content = (
-      <SelectedProject
-        project={selectedProject}
-        onDelete={handleDeleteProject}
-      >
+      <SelectedProject>
         <Tasks/>
       </SelectedProject>
     );
@@ -121,17 +119,30 @@ function App() {
     deleteTask : handleDeleteTask,
   }
 
+  const projectCtxValue = {
+    projects : projectsState.projects,
+    createProject : handleCreateProject,
+    addProject : handleAddProject,
+    deleteProject : handleDeleteProject,
+    selectProject : handleSelectProject,
+    cancelProject : handleCancelAddProject,
+    selectedProject : selectedProject,
+  }
+
   return (
     <main className='h-screen flex gap-8'>
-      <ProjectsSidebar
-        onStartAddProject={handleCancelAddProject}
-        projects={projectsState.projects}
-        onSelectProject={handleSelectProject}
-        selectedProjectId={projectsState.selectedProjectId}
-      />
+      
+      <ProjectContext.Provider value={projectCtxValue}>
+      <ProjectsSidebar />
+    
+      </ProjectContext.Provider>
+
+      <ProjectContext.Provider value={projectCtxValue}>
       <TaskContext.Provider value={taskCtxValue}>
       {content}
       </TaskContext.Provider>
+      </ProjectContext.Provider>
+
     </main>
   );
 }

@@ -1,14 +1,16 @@
-import React, { useRef } from 'react'
+import React, { useContext, useRef } from 'react'
 import Input from './Input.jsx';
 import {Button} from './Button.jsx'
 import { Modal } from './Modal.jsx';
+import { ProjectContext } from '../store/project-context.jsx';
 
-export const NewProject = ({onAdd, onCancel}) => {
+export const NewProject = () => {
   
   const modalRef = useRef();
   const titleRef = useRef();
   const descRef = useRef();
   const dueDateRef = useRef();
+  const ctxValue = useContext(ProjectContext);
 
   function handleSave(){
     const enteredTitle = titleRef.current.value;
@@ -22,7 +24,7 @@ export const NewProject = ({onAdd, onCancel}) => {
       return;
     }
   
-    onAdd({
+    ctxValue.addProject({
       title: enteredTitle,
       description: enteredDesc,
       dueDate : enteredDueDate
@@ -39,7 +41,7 @@ export const NewProject = ({onAdd, onCancel}) => {
     </Modal>
     <div className="w-[35rem] mt-20 mx-60">
         <menu className='flex items-center justify-end gap-4 my-4'>
-            <li><button className='text-stone-800 hover:text-stone-950' onClick={onCancel}>Cancel</button></li>
+            <li><button className='text-stone-800 hover:text-stone-950' onClick={ctxValue.cancelProject}>Cancel</button></li>
             <li><Button handleSave={handleSave}>Save</Button></li>
         </menu>
         <div>
