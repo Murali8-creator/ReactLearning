@@ -1,7 +1,10 @@
 import React, { useState } from 'react'
+import { useContext } from 'react';
+import { TaskContext } from '../store/task-context';
 
-export const NewTask = ({onAdd}) => {
-
+export const NewTask = () => {
+   const addTaskCtx = useContext(TaskContext);
+  
    const [enteredTask, setEnteredTask] =  useState('');
 
    function handleChange(e){
@@ -11,7 +14,7 @@ export const NewTask = ({onAdd}) => {
     if(enteredTask.trim()===''){
         return;
     }
-    onAdd(enteredTask);   
+    addTaskCtx.addTask(enteredTask);   
     setEnteredTask("");
    }
   return (

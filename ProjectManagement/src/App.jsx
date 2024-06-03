@@ -3,6 +3,8 @@ import NewProject from './components/NewProject';
 import { NoProjectSelected } from './components/NoProjectSelected';
 import { useState } from 'react';
 import { SelectedProject } from './components/SelectedProject';
+import { Tasks } from './components/Tasks';
+import { TaskContext } from './store/task-context';
 
 function App() {
   const [projectsState, setProjectsState] = useState({
@@ -107,11 +109,16 @@ function App() {
       <SelectedProject
         project={selectedProject}
         onDelete={handleDeleteProject}
-        onAddTask={handleAddTask}
-        onDeleteTask={handleDeleteTask}
-        tasks ={projectsState.tasks}
-      />
+      >
+        <Tasks/>
+      </SelectedProject>
     );
+  }
+
+  const taskCtxValue = {
+    tasks : projectsState.tasks,
+    addTask : handleAddTask,
+    deleteTask : handleDeleteTask,
   }
 
   return (
@@ -122,7 +129,9 @@ function App() {
         onSelectProject={handleSelectProject}
         selectedProjectId={projectsState.selectedProjectId}
       />
+      <TaskContext.Provider value={taskCtxValue}>
       {content}
+      </TaskContext.Provider>
     </main>
   );
 }
