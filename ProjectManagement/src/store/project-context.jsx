@@ -2,7 +2,7 @@ import { createContext, useState } from "react";
 
 export const ProjectContext = createContext({
     projects:[],
-    SelectedProjectId : undefined,
+    selectedProjectId : undefined,
     createProject : () => {},
     addProject: () => {},
     deleteProject: () => {},
@@ -24,6 +24,7 @@ export default function ProjectContextProvider({children}){
             selectedProjectId: id,
           };
         });
+        
       }
     
       function handleCreateProject() {

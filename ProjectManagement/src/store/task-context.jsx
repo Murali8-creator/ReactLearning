@@ -1,4 +1,5 @@
-import {createContext, useState} from 'react';
+import {createContext, useContext, useState} from 'react';
+import { ProjectContext } from './project-context';
 
 
 export const TaskContext = createContext({
@@ -12,12 +13,14 @@ export default function TaskContextProvider({children}){
         tasks: [],
       });
 
+      const {selectedProjectId} = useContext(ProjectContext);
+
       function handleAddTask(text) {
         setProjectsState((prevState) => {
           const taskId = Math.random();
           const newTask = {
             text: text,
-            projectId: prevState.selectedProjectId,
+            projectId: selectedProjectId,
             id: taskId,
           };
           return {
