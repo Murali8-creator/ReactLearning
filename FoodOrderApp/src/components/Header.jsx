@@ -7,6 +7,7 @@ export const Header = ({
   cartItems,
   handleAddCartItems,
   handleRemoveCartItem,
+  setCartItems
 }) => {
   const [cartButtonClicked, setCartButtonClicked] = useState(false);
   const modalRef = useRef();
@@ -34,6 +35,7 @@ export const Header = ({
             cartItems={cartItems}
             handleAddCartItems={handleAddCartItems}
             handleRemoveCartItem={handleRemoveCartItem}
+            setCartItems={setCartItems}
           />
         )}
       </div>

@@ -54,6 +54,7 @@ function App() {
         cartItems={cartItems}
         handleAddCartItems={handleAddCartItems}
         handleRemoveCartItem={handleRemoveCartItem}
+        setCartItems = {setCartItems}
       />
       <Main onAddCartItems={(item) => handleAddCartItems(item)} />
       {/* {cartItems.length!=0 && console.log(cartItems)} */}
