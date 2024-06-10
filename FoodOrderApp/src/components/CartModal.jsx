@@ -10,18 +10,12 @@ import { Cart } from './Cart';
 import { Checkout } from './Checkout';
 import { SuccessModal } from './SuccessModal';
 
-const CartModal = forwardRef(function CartModal(
-  {},
-  ref
-) {
+const CartModal = forwardRef(function CartModal({setCartButtonClicked},ref) {
   const dialogRef = useRef(null);
 
   const [checkoutClicked, setCheckoutClicked] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [total, setTotal] = useState(0);
-
-  
-
 
   function handleCheckoutClick() {
     setCheckoutClicked(true);
@@ -39,11 +33,11 @@ const CartModal = forwardRef(function CartModal(
   const closeModal = () => {
     if (dialogRef.current) {
       setCheckoutClicked(false);
+      setCartButtonClicked(false);
       dialogRef.current.close();
     }
   };
-  function handleClose(){
-    
+  function handleClose() {
     setCheckoutClicked(false);
     setSubmitted(false);
     dialogRef.current.close();
@@ -51,28 +45,27 @@ const CartModal = forwardRef(function CartModal(
 
   return createPortal(
     <dialog ref={dialogRef} className='modal p-5 pr-10 pl-10'>
-      {
-        !checkoutClicked &&
+      {!checkoutClicked && (
         <Cart
           closeModal={closeModal}
           handleCheckoutClick={handleCheckoutClick}
           total={total}
           setTotal={setTotal}
         />
-      }
+      )}
 
-      {
-        checkoutClicked && !submitted &&  
-        <Checkout total={total} closeModal={closeModal} onSubmitted={() => setSubmitted(true)}/> 
-      }
+      {checkoutClicked && !submitted && (
+        <Checkout
+          total={total}
+          closeModal={closeModal}
+          onSubmitted={() => setSubmitted(true)}
+        />
+      )}
 
-      {
-        submitted &&  <SuccessModal closeModal={handleClose}/>
-      }
+      {submitted && <SuccessModal closeModal={handleClose} />}
     </dialog>,
     document.getElementById('modal')
   );
 });
 
 export default CartModal;
-

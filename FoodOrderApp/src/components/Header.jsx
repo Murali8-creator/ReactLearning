@@ -1,18 +1,25 @@
-import React, { useContext, useRef, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import logo from '../assets/logo.jpg';
 import '../index.css';
 import CartModal from './CartModal';
+import { CartContext } from '../context/cart-context';
 
-export const Header = ({ cartItems }) => {
+export const Header = () => {
   const [cartButtonClicked, setCartButtonClicked] = useState(false);
   const modalRef = useRef();
+  const {cartItems} = useContext(CartContext);
 
   function handleClick() {
+    console.log("entered");
     setCartButtonClicked(true);
+  }
+
+  useEffect(() =>{
     if (modalRef.current) {
+      console.log("ent");
       modalRef.current.open();
     }
-  }
+  },[cartButtonClicked])
 
   return (
     <>
@@ -24,7 +31,7 @@ export const Header = ({ cartItems }) => {
         <button className='text-button' onClick={handleClick}>
           Cart ({cartItems.length})
         </button>
-        {cartButtonClicked && <CartModal ref={modalRef} />}
+        {cartButtonClicked && <CartModal ref={modalRef} setCartButtonClicked={setCartButtonClicked}/>}
       </div>
     </>
   );

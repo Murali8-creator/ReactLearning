@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import logo from '../../backend/public/images/beef-tacos.jpg';
+import { CartContext } from '../context/cart-context';
 
-export const Main = ({ onAddCartItems}) => {
+export const Main = () => {
   const [loading, setLoading] = useState(true);
   const [fetchedData, setFetchedData] = useState([]);
   const [error, setError] = useState(false);
+  const {handleAddCartItems} = useContext(CartContext);
 
   useEffect(() => {
     (async function fetchMeals() {
@@ -30,7 +32,7 @@ export const Main = ({ onAddCartItems}) => {
   ) : null;
 
   function handleAddToCart(item){
-    onAddCartItems(item);
+    handleAddCartItems(item);
   }
   return (
     <div id='meals'>
