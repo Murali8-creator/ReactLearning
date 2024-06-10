@@ -1,14 +1,9 @@
-import React, { useRef, useState } from 'react';
+import React, { useContext, useRef, useState } from 'react';
 import logo from '../assets/logo.jpg';
 import '../index.css';
 import CartModal from './CartModal';
 
-export const Header = ({
-  cartItems,
-  handleAddCartItems,
-  handleRemoveCartItem,
-  setCartItems
-}) => {
+export const Header = ({ cartItems }) => {
   const [cartButtonClicked, setCartButtonClicked] = useState(false);
   const modalRef = useRef();
 
@@ -29,15 +24,7 @@ export const Header = ({
         <button className='text-button' onClick={handleClick}>
           Cart ({cartItems.length})
         </button>
-        {cartButtonClicked && (
-          <CartModal
-            ref={modalRef}
-            cartItems={cartItems}
-            handleAddCartItems={handleAddCartItems}
-            handleRemoveCartItem={handleRemoveCartItem}
-            setCartItems={setCartItems}
-          />
-        )}
+        {cartButtonClicked && <CartModal ref={modalRef} />}
       </div>
     </>
   );

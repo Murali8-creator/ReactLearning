@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import { useContext } from "react";
+import { CartContext } from "../context/cart-context";
 
+export const Checkout = ({ total, closeModal ,onSubmitted}) => {
 
-export const Checkout = ({ total, closeModal ,cartItems,onSubmitted,setCartItems}) => {
-
+  const {cartItems} = useContext(CartContext);
     
     const url = "http://localhost:3000/orders";
 
@@ -74,3 +75,4 @@ export const Checkout = ({ total, closeModal ,cartItems,onSubmitted,setCartItems
     </>
   );
 };
+

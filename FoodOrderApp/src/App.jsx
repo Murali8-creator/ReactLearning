@@ -1,18 +1,16 @@
-import { useEffect, useState } from 'react';
-import CartModal from './components/CartModal';
+import { useState } from 'react';
 import { Header } from './components/Header';
 import { Main } from './components/Main';
+import { CartContext } from './context/cart-context';
 
 function App() {
   const [cartItems, setCartItems] = useState([]);
-  useEffect(() => {console.log(cartItems)}, [cartItems]);
 
   function handleAddCartItems(item) {
     setCartItems((prevCartItems) => {
       const existingItem = prevCartItems.find(
         (cartItem) => cartItem.id === item.id
       );
-      console.log(existingItem);
       if (!existingItem) {
         const newItem = {
           id: item.id,
@@ -35,29 +33,35 @@ function App() {
   }
 
   function handleRemoveCartItem(item) {
-    setCartItems((prevCartItems) => {   
-      if(item.quantity > 1){
-        return  prevCartItems.map((cartItem) => cartItem.id === item.id ? {
-            ...cartItem,
-            quantity : cartItem.quantity -1,
-          }:cartItem)
+    setCartItems((prevCartItems) => {
+      if (item.quantity > 1) {
+        return prevCartItems.map((cartItem) =>
+          cartItem.id === item.id
+            ? {
+                ...cartItem,
+                quantity: cartItem.quantity - 1,
+              }
+            : cartItem
+        );
+      } else {
+        return prevCartItems.filter((cartItem) => cartItem.id !== item.id);
       }
-      else{
-        return prevCartItems.filter((cartItem) => cartItem.id !== item.id)
-      }
-  });
+    });
   }
+
+  const cartCtxValue = {
+    cartItems: cartItems,
+    handleAddCartItems: handleAddCartItems,
+    handleRemoveCartItem: handleRemoveCartItem,
+    setCartItems: () => setCartItems([]),
+  };
 
   return (
     <>
-      <Header
-        cartItems={cartItems}
-        handleAddCartItems={handleAddCartItems}
-        handleRemoveCartItem={handleRemoveCartItem}
-        setCartItems = {setCartItems}
-      />
+      <CartContext.Provider value={cartCtxValue}>
+        <Header cartItems={cartItems} />
+      </CartContext.Provider>
       <Main onAddCartItems={(item) => handleAddCartItems(item)} />
-      {/* {cartItems.length!=0 && console.log(cartItems)} */}
     </>
   );
 }

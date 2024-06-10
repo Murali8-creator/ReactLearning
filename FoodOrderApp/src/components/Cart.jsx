@@ -1,13 +1,24 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
+import { CartContext } from '../context/cart-context';
 
-export const Cart = ({cartItems,closeModal,handleAddCartItems,handleRemoveCartItem,handleCheckoutClick,total,setTotal}) => {
-    
+export const Cart = ({closeModal,handleCheckoutClick,total,setTotal}) => {
+
+  const {cartItems,handleAddCartItems,handleRemoveCartItem} = useContext(CartContext);
 
     useEffect(() => {
         let num = 0;
         num = cartItems.reduce((total, cartItem) => total + cartItem.price * cartItem.quantity, 0);
         setTotal(num);
       }, [cartItems]);
+
+      const disabled = cartItems.length == 0;
+      let buttonClasses ;
+      if(!disabled){
+        buttonClasses = "bg-amber-400 p-1 rounded-md shadow-md hover:bg-amber-500 cursor:pointer";
+      }
+      else{
+        buttonClasses = "bg-gray-700 p-1 rounded-md shadow-md";
+      }
 
      
   return (
@@ -37,8 +48,9 @@ export const Cart = ({cartItems,closeModal,handleAddCartItems,handleRemoveCartIt
       <div className="cart-total font-mono">Total: {total}</div>
       <div className="modal-actions">
         <button onClick={closeModal} className="text-button">Close</button>
-        <button className="bg-amber-400 p-1 rounded-md shadow-md hover:bg-amber-500" onClick={() => handleCheckoutClick()}>Checkout</button>
+        <button className={buttonClasses} onClick={() => handleCheckoutClick()} disabled = {disabled}>Checkout</button>
       </div>
     </>
   )
 }
+

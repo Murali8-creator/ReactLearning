@@ -2,7 +2,6 @@ import React, {
   forwardRef,
   useImperativeHandle,
   useRef,
-  useEffect,
   useState,
 } from 'react';
 import '../index.css';
@@ -12,7 +11,7 @@ import { Checkout } from './Checkout';
 import { SuccessModal } from './SuccessModal';
 
 const CartModal = forwardRef(function CartModal(
-  { cartItems, handleAddCartItems, handleRemoveCartItem,setCartItems },
+  {},
   ref
 ) {
   const dialogRef = useRef(null);
@@ -20,6 +19,8 @@ const CartModal = forwardRef(function CartModal(
   const [checkoutClicked, setCheckoutClicked] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [total, setTotal] = useState(0);
+
+  
 
 
   function handleCheckoutClick() {
@@ -53,10 +54,7 @@ const CartModal = forwardRef(function CartModal(
       {
         !checkoutClicked &&
         <Cart
-          cartItems={cartItems}
           closeModal={closeModal}
-          handleAddCartItems={handleAddCartItems}
-          handleRemoveCartItem={handleRemoveCartItem}
           handleCheckoutClick={handleCheckoutClick}
           total={total}
           setTotal={setTotal}
@@ -65,11 +63,11 @@ const CartModal = forwardRef(function CartModal(
 
       {
         checkoutClicked && !submitted &&  
-        <Checkout total={total} closeModal={closeModal} cartItems={cartItems} onSubmitted={() => setSubmitted(true)}  setCartItems={setCartItems}/> 
+        <Checkout total={total} closeModal={closeModal} onSubmitted={() => setSubmitted(true)}/> 
       }
 
       {
-        submitted &&  <SuccessModal closeModal={handleClose} setCartItems={setCartItems}/>
+        submitted &&  <SuccessModal closeModal={handleClose}/>
       }
     </dialog>,
     document.getElementById('modal')
@@ -77,3 +75,4 @@ const CartModal = forwardRef(function CartModal(
 });
 
 export default CartModal;
+

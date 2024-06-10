@@ -53,3 +53,4 @@ export const Main = ({ onAddCartItems}) => {
     </div>
   );
 };
+

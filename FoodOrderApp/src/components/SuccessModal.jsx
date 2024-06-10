@@ -1,8 +1,11 @@
-import React from 'react'
+import React, { useContext } from 'react'
+import { CartContext } from '../context/cart-context';
 
-export const SuccessModal = ({closeModal,setCartItems}) => {
+export const SuccessModal = ({closeModal}) => {
+  const cartCtxValue = useContext(CartContext);
+  
     function handleCloseClick(){
-        setCartItems([]);
+        cartCtxValue.setCartItems([]);
         closeModal();
     }
   return (
@@ -12,3 +15,4 @@ export const SuccessModal = ({closeModal,setCartItems}) => {
     </>
   )
 }
+
