@@ -1,6 +1,11 @@
-function ProductsPage(){
-    return <h1>Products</h1>
-}
+import MainNavigation from "../components/MainNavigation";
 
+function ProductsPage() {
+  return (
+    <>
+      <h1>Products</h1>
+    </>
+  );
+}
 
 export default ProductsPage;
