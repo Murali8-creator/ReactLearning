@@ -1,26 +1,26 @@
-import { createContext, useState } from "react"
+import { createContext, useReducer } from 'react';
 
 export const CartContext = createContext({
-    cartItems:[],
-    handleAddCartItems:() => {},
-    handleRemoveCartItem:() => {},
-    setCartItems:() => {}
-})
+  cartItems: [],
+  handleAddCartItems: () => {},
+  handleRemoveCartItem: () => {},
+  clearCart: () => {},
+});
 
-export default function CartContextProvider({children}){
-    const [cartItems, setCartItems] = useState([]);
+function cartContextReducer(state, action) {
+  const prevCartItems = [...state];
 
-  function handleAddCartItems(item) {
-    setCartItems((prevCartItems) => {
+  switch (action.type) {
+    case 'ADD_ITEM':
       const existingItem = prevCartItems.find(
-        (cartItem) => cartItem.id === item.id
+        (cartItem) => cartItem.id === action.payload.item.id
       );
       if (!existingItem) {
         const newItem = {
-          id: item.id,
-          name: item.name,
+          id: action.payload.item.id,
+          name: action.payload.item.name,
           quantity: 1,
-          price: item.price,
+          price: action.payload.item.price,
         };
         return [...prevCartItems, newItem];
       } else {
@@ -33,14 +33,11 @@ export default function CartContextProvider({children}){
             : item
         );
       }
-    });
-  }
-
-  function handleRemoveCartItem(item) {
-    setCartItems((prevCartItems) => {
-      if (item.quantity > 1) {
+    
+    case 'REMOVE_ITEM':
+      if (action.payload.item.quantity > 1) {
         return prevCartItems.map((cartItem) =>
-          cartItem.id === item.id
+          cartItem.id === action.payload.item.id
             ? {
                 ...cartItem,
                 quantity: cartItem.quantity - 1,
@@ -48,19 +45,48 @@ export default function CartContextProvider({children}){
             : cartItem
         );
       } else {
-        return prevCartItems.filter((cartItem) => cartItem.id !== item.id);
+        return prevCartItems.filter(
+          (cartItem) => cartItem.id !== action.payload.item.id
+        );
       }
+    
+    case 'CLEAR_CART':
+      return [];
+
+    default:
+      return state;
+  }
+}
+
+export default function CartContextProvider({ children }) {
+  const [cartItems, cartItemsDispatch] = useReducer(cartContextReducer, []);
+
+  function handleAddCartItems(item) {
+    cartItemsDispatch({
+      type: 'ADD_ITEM',
+      payload: { item },
     });
   }
 
+  function handleRemoveCartItem(item) {
+    cartItemsDispatch({
+      type: 'REMOVE_ITEM',
+      payload: { item },
+    });
+  }
+
+  function clearCart() {
+    cartItemsDispatch({ type: 'CLEAR_CART' });
+  }
+
   const cartCtxValue = {
-    cartItems: cartItems,
-    handleAddCartItems: handleAddCartItems,
-    handleRemoveCartItem: handleRemoveCartItem,
-    setCartItems: () => setCartItems([]),
+    cartItems,
+    handleAddCartItems,
+    handleRemoveCartItem,
+    clearCart,
   };
 
-  return <CartContext.Provider value={cartCtxValue}>
-    {children}
-  </CartContext.Provider>
+  return (
+    <CartContext.Provider value={cartCtxValue}>{children}</CartContext.Provider>
+  );
 }

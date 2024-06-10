@@ -10,13 +10,11 @@ export const Header = () => {
   const {cartItems} = useContext(CartContext);
 
   function handleClick() {
-    console.log("entered");
     setCartButtonClicked(true);
   }
 
   useEffect(() =>{
     if (modalRef.current) {
-      console.log("ent");
       modalRef.current.open();
     }
   },[cartButtonClicked])

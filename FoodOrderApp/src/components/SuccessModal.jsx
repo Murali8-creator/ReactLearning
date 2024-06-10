@@ -5,7 +5,7 @@ export const SuccessModal = ({closeModal}) => {
   const cartCtxValue = useContext(CartContext);
   
     function handleCloseClick(){
-        cartCtxValue.setCartItems([]);
+        cartCtxValue.clearCart();
         closeModal();
     }
   return (
