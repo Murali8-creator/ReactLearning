@@ -76,3 +76,4 @@ export const Checkout = ({ total, closeModal ,onSubmitted}) => {
   );
 };
 
+

@@ -1,0 +1,17 @@
+services:
+  frontend:
+    container_name: frontend
+    build:
+       context: .   
+       dockerfile: ./Dockerfile
+    # image: foodd-order-frontend:latest
+    ports:
+      - 5173:5173
+  backend:
+    container_name: backend
+    build:
+     context: ./backend
+     dockerfile: ./Dockerfile
+    # image: food-order-backend  
+    ports:
+      - 3000:3000     
