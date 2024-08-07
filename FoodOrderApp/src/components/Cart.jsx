@@ -48,7 +48,7 @@ export const Cart = ({closeModal,handleCheckoutClick,total,setTotal}) => {
       <div className="cart-total font-mono">Total: {total}</div>
       <div className="modal-actions">
         <button onClick={closeModal} className="text-button">Close</button>
-        <button className={buttonClasses} onClick={() => handleCheckoutClick()} disabled = {disabled}>Checkout</button>
+        <button className={buttonClasses} onClick={() => handleCheckoutClick()} disabled = {disabled}>Checkout Cart</button>
       </div>
     </>
   )
