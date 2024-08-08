@@ -15,14 +15,17 @@ jobs:
       - run: bats -v
       - name: Check if MY_SECRET is set
         env:
-          AllowedUsers: (secrets.MY_SECRET)
+          ALLOWED_USERS: ${{ secrets.MY_SECRET }}
         run: |
           if [ -z "${{ secrets.MY_SECRET }}" ]; then
             echo "MY_SECRET is not set."
-          elif [[ "${ALLOWED_USERS}" == *"${GITHUB_ACTOR}"* ]]; then
-            echo "authorized"
           else
-            echo "unauthorized"
+            IFS=',' read -r -a users_array <<< "${ALLOWED_USERS}"
+            if [[ " ${users_array[@]} " =~ " ${GITHUB_ACTOR} " ]]; then
+              echo "authorized"
+            else
+              echo "unauthorized"
+            fi
           fi
       - name: Print Secret Value
         if: env.MY_SECRET == 'true'
