@@ -17,10 +17,10 @@ jobs:
         run: |
           if [ -z "${{ secrets.MY_SECRET }}" ]; then
             echo "MY_SECRET is not set."
-          elif["${{secrets.MY_SECRET == 'murali'}}"]; then
+          elif [ "${{ secrets.MY_SECRET }}" = "murali" ]; then
             echo "hello murali"
           else
-             echo "hello unknown"
+            echo "hello unknown"
           fi
       - name: Print Secret Value
         if: env.MY_SECRET == 'true'
