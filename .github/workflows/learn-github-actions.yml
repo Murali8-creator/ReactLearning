@@ -14,13 +14,14 @@ jobs:
       - run: npm install -g bats
       - run: bats -v
       - name: Check if MY_SECRET is set
+        AllowedUsers: (secrets.MY_SECRET)
         run: |
           if [ -z "${{ secrets.MY_SECRET }}" ]; then
             echo "MY_SECRET is not set."
-          elif [ "${{ secrets.MY_SECRET }}" = "murali" ]; then
-            echo "hello m"
+          elif [ "${{ AllowedUsers[@]" = "${{GITHUB_ACTOR}}" }}" ]; then
+            echo "authorized"
           else
-            echo "hello unknown"
+            echo "unauthorized"
           fi
       - name: Print Secret Value
         if: env.MY_SECRET == 'true'
