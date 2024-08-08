@@ -14,7 +14,8 @@ jobs:
       - run: npm install -g bats
       - run: bats -v
       - name: Check if MY_SECRET is set
-        AllowedUsers: (secrets.MY_SECRET)
+        env:
+          AllowedUsers: (secrets.MY_SECRET)
         run: |
           if [ -z "${{ secrets.MY_SECRET }}" ]; then
             echo "MY_SECRET is not set."
