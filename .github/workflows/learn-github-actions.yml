@@ -17,10 +17,10 @@ jobs:
         run: |
           if [ -z "${{ secrets.MY_SECRET }}" ]; then
             echo "MY_SECRET is not set."
-            echo "MY_SECRET=false" >> $GITHUB_ENV
+          else if["${{secrets.MY_SECRET == 'murali'}}"];then
+            echo "hello murali"
           else
-            echo "MY_SECRET is set."
-            echo "MY_SECRET=true" >> $GITHUB_ENV
+             echo "hello unknown"
           fi
       - name: Print Secret Value
         if: env.MY_SECRET == 'true'
