@@ -19,7 +19,7 @@ jobs:
         run: |
           if [ -z "${{ secrets.MY_SECRET }}" ]; then
             echo "MY_SECRET is not set."
-          elif [ "${{ AllowedUsers[@]" = "${{GITHUB_ACTOR}}" }}" ]; then
+          elif [[ "${ALLOWED_USERS}" == *"${GITHUB_ACTOR}"* ]]; then
             echo "authorized"
           else
             echo "unauthorized"
