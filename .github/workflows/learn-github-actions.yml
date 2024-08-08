@@ -12,8 +12,4 @@ jobs:
       - run: npm install -g bats
       - run: bats -v
       - name: Print Secret Value
-        if: ${{ secrets.MY_SECRET != '' }}
-            run: echo "The value of MY_SECRET is: ${{ secrets.MY_SECRET }}"
-      - name: Notify Missing Secret
-        if: ${{ secrets.MY_SECRET == '' }}
-            run: echo "The MY_SECRET secret is not set. Please set it in your repository settings."
+        run: echo "The value of MY_SECRET is: ${{ secrets.MY_SECRET }}"
