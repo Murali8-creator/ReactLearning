@@ -18,7 +18,7 @@ jobs:
           if [ -z "${{ secrets.MY_SECRET }}" ]; then
             echo "MY_SECRET is not set."
           elif [ "${{ secrets.MY_SECRET }}" = "murali" ]; then
-            echo "hello murali"
+            echo "hello m"
           else
             echo "hello unknown"
           fi
