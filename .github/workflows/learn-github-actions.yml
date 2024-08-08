@@ -17,7 +17,7 @@ jobs:
         env:
           ALLOWED_USERS: ${{ secrets.MY_SECRET }}
         run: |
-          if [ -z "${{ ALLOWED_USERS}}" ]; then
+          if [ -z "${{ ALLOWED_USERS =~ null}}" ]; then
             echo "MY_SECRET is not set."
           else
             IFS=',' read -r -a users_array <<< "${ALLOWED_USERS}"
