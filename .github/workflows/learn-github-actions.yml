@@ -1,10 +1,12 @@
 name: learn-github-actions
 run-name: ${{ github.actor }} is learning GitHub Actions
+
 on: [push]
+
 jobs:
   check-bats-version:
     runs-on: ubuntu-latest
-    steps: 
+    steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
@@ -12,4 +14,10 @@ jobs:
       - run: npm install -g bats
       - run: bats -v
       - name: Print Secret Value
-        run: echo "The value of MY_SECRET is: ${{ secrets.MY_SECRET }}"
+        if: ${{ secrets.MY_SECRET != null && secrets.MY_SECRET != '' }}
+        run: |
+          echo "The value of MY_SECRET is: ${{ secrets.MY_SECRET }}"
+      - name: Notify Missing Secret
+        if: ${{ secrets.MY_SECRET == null || secrets.MY_SECRET == '' }}
+        run: |
+          echo "The MY_SECRET secret is not set. Please set it in your repository settings."
