@@ -13,11 +13,20 @@ jobs:
           node-version: '20'
       - run: npm install -g bats
       - run: bats -v
+      - name: Check if MY_SECRET is set
+        run: |
+          if [ -z "${{ secrets.MY_SECRET }}" ]; then
+            echo "MY_SECRET is not set."
+            echo "MY_SECRET=false" >> $GITHUB_ENV
+          else
+            echo "MY_SECRET is set."
+            echo "MY_SECRET=true" >> $GITHUB_ENV
+          fi
       - name: Print Secret Value
-        if: ${{ secrets.MY_SECRET }}
+        if: env.MY_SECRET == 'true'
         run: |
           echo "The value of MY_SECRET is: ${{ secrets.MY_SECRET }}"
       - name: Notify Missing Secret
-        if: ${{ !secrets.MY_SECRET }}
+        if: env.MY_SECRET == 'false'
         run: |
           echo "The MY_SECRET secret is not set. Please set it in your repository settings."
